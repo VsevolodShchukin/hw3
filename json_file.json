@@ -1,0 +1,18 @@
+ {
+            "id": 1,
+            "name": "Чак-чак",
+            "package_params": {
+                "width": 3,
+                "height": 2
+            },
+            "location_and_quantity": [
+                {
+                    "location": "Бэхэтле",
+                    "amount": 51
+                },
+                {
+                    "location": "Эдельвейс",
+                    "amount": 3
+                }
+            ]
+        }
