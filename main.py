@@ -9,20 +9,24 @@ SQL = DB.cursor()
 
 def create_tables() -> None:
     """Создание таблиц с данными."""
-    SQL.execute(""" CREATE TABLE IF NOT EXISTS goods(
+    SQL.execute(
+        """ CREATE TABLE IF NOT EXISTS goods(
     id integer PRIMARY KEY AUTOINCREMENT,
     name varchar(250) NOT NULL,
     package_height float NOT NULL,
     package_width float NOT NULL
-    ) """)
+    ) """
+    )
 
-    SQL.execute(""" CREATE TABLE IF NOT EXISTS shops_goods(
+    SQL.execute(
+        """ CREATE TABLE IF NOT EXISTS shops_goods(
     id integer PRIMARY KEY AUTOINCREMENT,
     id_good int NOT NULL,
     location varchar(250) NOT NULL,
     amount int NOT NULL,
     FOREIGN KEY (id_good) REFERENCES goods(id)
-    ) """)
+    ) """
+    )
     DB.commit()
 
 
@@ -53,13 +57,18 @@ def get_data_from_json_and_input_to_db(input_json_file: dict) -> None:
 
     SQL.execute(f""" SELECT * FROM goods WHERE id = {id} """)
     if SQL.fetchone() is None:
-        SQL.execute(""" INSERT INTO goods (id, name, package_height, package_width)
+        SQL.execute(
+            """ INSERT INTO goods (id, name, package_height, package_width)
                 VALUES (?, ?, ?, ?)
-                """, (id, name, width, height))
+                """,
+            (id, name, width, height),
+        )
         DB.commit()
     else:
-        SQL.execute(f""" UPDATE goods SET id = {id}, name = '{name}',
-        package_height = {height}, package_width = {width} """)
+        SQL.execute(
+            f""" UPDATE goods SET id = {id}, name = '{name}',
+        package_height = {height}, package_width = {width} """
+        )
         DB.commit()
 
     SQL.execute(f""" SELECT * FROM shops_goods WHERE id_good = {id} """)
@@ -67,16 +76,21 @@ def get_data_from_json_and_input_to_db(input_json_file: dict) -> None:
         for i in range(len(input_json_file["location_and_quantity"])):
             location = input_json_file["location_and_quantity"][i]["location"]
             quantity = input_json_file["location_and_quantity"][i]["amount"]
-            SQL.execute(""" INSERT INTO shops_goods (id_good, location, amount)
+            SQL.execute(
+                """ INSERT INTO shops_goods (id_good, location, amount)
                                         VALUES (?, ?, ?)
-                                        """, (id, location, quantity))
+                                        """,
+                (id, location, quantity),
+            )
             DB.commit()
     else:
         for i in range(len(input_json_file["location_and_quantity"])):
             location = input_json_file["location_and_quantity"][i]["location"]
             quantity = input_json_file["location_and_quantity"][i]["amount"]
-            SQL.execute(f""" UPDATE shops_goods SET id_good = {id}, location = '{location}',
-            amount = '{quantity}' WHERE id = {id+i} """)
+            SQL.execute(
+                f""" UPDATE shops_goods SET id_good = {id}, location = '{location}',
+            amount = '{quantity}' WHERE id = {id+i} """
+            )
             DB.commit()
 
 

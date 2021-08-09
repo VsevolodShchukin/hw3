@@ -7,12 +7,11 @@
             },
             "location_and_quantity": [
                 {
-                    "location": "Бэхэтле",
-                    "amount": 50
+                    "location": "Бэхэтле"
                 },
                 {
                     "location": "Эдельвейс",
-                    "amount": 10
+                    "amount": 3
                 }
             ]
         }
